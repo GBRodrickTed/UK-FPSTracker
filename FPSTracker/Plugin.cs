@@ -52,9 +52,9 @@ namespace FPSTracker
 
             // FPS Graph
             fpsGraph = new BoolField(config.rootPanel, "FPS Graph", "bool.fps_graph", true);
-            fpsGraphTimeLimit = new FloatField(config.rootPanel, "FPS Graph Time Limit", "float.fps_graph_time_limit", 0.5f, 0, 42069);
+            fpsGraphTimeLimit = new FloatField(config.rootPanel, "FPS Graph Time Limit", "float.fps_graph_time_limit", 0.1f, 0, 42069);
             fpsGraphTargetFps = new IntField(config.rootPanel, "FPS Graph Target FPS", "int.fps_graph_target_fps", 60, 1, 42069);
-            fpsGraphDataPoints = new IntField(config.rootPanel, "FPS Graph Data Points", "int.fps_graph_data_points", 25, 2, 100000);
+            fpsGraphDataPoints = new IntField(config.rootPanel, "FPS Graph Data Points", "int.fps_graph_data_points", 100, 2, 100000);
             fpsGraphQuality = new IntField(config.rootPanel, "FPS Graph Quality", "int.fps_graph_quality", 185, 1, 100000);
             fpsGraphOffsetX = new FloatField(config.rootPanel, "X Offset", "float.fps_graph_offset_x", 0);
             fpsGraphOffsetY = new FloatField(config.rootPanel, "Y Offset", "float.fps_graph_offset_y", 0);
@@ -119,6 +119,14 @@ namespace FPSTracker
                     {
                         Plugin.fpsGraph.GetComponent<FPSGraph>().PlotData();
                     }
+                    fpsGraphTimeLimit.hidden = !e.value;
+                    fpsGraphTargetFps.hidden = !e.value;
+                    fpsGraphDataPoints.hidden = !e.value;
+                    fpsGraphQuality.hidden = !e.value;
+                    fpsGraphOffsetX.hidden = !e.value;
+                    fpsGraphOffsetY.hidden = !e.value;
+                    fpsGraphMarker.hidden = !e.value;
+                    fpsGraphMarkerVisibility.hidden = !e.value;
                 }
             };
 
@@ -223,10 +231,11 @@ namespace FPSTracker
         public static bool startup = false;
         public void Start()
         {
-            Debug.Log("Im trippin");
             ConfigManager.Setup();
             scene = SceneHelper.CurrentScene;
             SceneManager.sceneLoaded += SceneChange;
+
+            Debug.Log("FPS mod loaded!");
             //DontDestroyOnLoad(fpsCanvas);
             //Instantiate(bundle.LoadAsset<GameObject>("FPS Display"));//
         }
